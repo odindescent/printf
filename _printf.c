@@ -15,23 +15,26 @@ int _printf(const char *format, ...)
 	int printed = 0;
 	int i = 0;
 
-	va_start(arg, format);
-	while (format[i] == '%')
+	va_start(args, format);
+	while (format && format[i])
 	{
-		i++;
-		if (format[i] == '\0')
-			return (-1);
-		if (format[i] == 'c')
-			printed += _putchar(va_arg(args, int));
-		else if (format[i] == 's')
-			printed += _puts(va_arg(args, char *));
-		else if (format[i] == 'd' || format[i] == 'i')
-			printed += putint(va_arg(args, int));
-		else
+		if (format[i] == '%')
 		{
-			_putchar('%');
-			_putchar(format[i]);
-			printed += 2;
+			i++;
+			if (format[i] == '\0')
+				return (-1);
+			if (format[i] == 'c')
+				printed += _putchar(va_arg(args, int));
+			else if (format[i] == 's')
+				printed += _puts(va_arg(args, char *));
+			else if (format[i] == 'd' || format[i] == 'i')
+				printed += _putint(va_arg(args, int));
+			else
+			{
+				_putchar('%');
+				_putchar(format[i]);
+				printed += 2;
+			}
 		}
 		else
 		{
